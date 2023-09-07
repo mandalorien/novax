@@ -58,7 +58,8 @@ if (isset($resource) && !empty($resource[401])) {
 			$select_owner = doquery("SELECT military_tech FROM {{table}} WHERE
 								id = '" . $selected_row['owner'] . "'", 'users');
 
-			if (mysql_num_rows($planetrow) != 1 OR mysql_num_rows($select_ziel) != 1) {
+			// if (mysql_num_rows($planetrow) != 1 OR mysql_num_rows($select_ziel) != 1) {
+			if ($planetrow->rowCount() != 1 OR $select_ziel->rowCount() != 1) {
 				doquery("DELETE FROM {{table}} WHERE id = '" . $selected_row['id'] . "'", 'iraks');
 			} else {
 				

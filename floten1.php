@@ -221,7 +221,8 @@ require_once dirname(__FILE__) .'/common.php';
 	$kolonien      = SortUserPlanets ( $user );
 	$currentplanet = doquery("SELECT * FROM {{table}} WHERE id = '" . $user['current_planet'] . "'", 'planets', true);
 
-	if (mysql_num_rows($kolonien) > 1) {
+	// if (mysql_num_rows($kolonien) > 1) {
+	if ($kolonien->rowCount() > 1) {
 		$i = 0;
 		$w = 0;
 		$tr = true;

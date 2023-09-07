@@ -90,9 +90,11 @@ require_once dirname(__FILE__) .'/common.php';
 
 	// Test d'existance de l'enregistrement dans la gaalxie !
 	if ($_POST['mission'] != 15) {
-		if (mysql_num_rows($select) < 1 && $fleetmission != 7) {
+		// if (mysql_num_rows($select) < 1 && $fleetmission != 7) {
+		if (if ($select->rowCount() > 1) { < 1 && $fleetmission != 7) {
 			message ("<font color=\"red\"><b>". $lang['fl_unknow_target'] ."</b></font>", $lang['fl_error'], "fleet." . PHPEXT, 2);
-		} elseif ($fleetmission == 9 && mysql_num_rows($select) < 1) {
+		// } elseif ($fleetmission == 9 && mysql_num_rows($select) < 1) {
+		} elseif ($fleetmission == 9 && $select->rowCount() < 1) {
 			message ("<font color=\"red\"><b>". $lang['fl_used_target'] ."</b></font>", $lang['fl_error'], "fleet." . PHPEXT, 2);
 		}
 	} else {

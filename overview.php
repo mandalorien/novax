@@ -38,7 +38,8 @@ CheckPlanetUsedFields ($lunarow);
 
 $mode = isset($_GET['mode']) ? $_GET['mode'] : '';
 $_POST['deleteid'] = intval($_POST['deleteid']);
-$pl = mysql_real_escape_string(isset($_GET['pl']) ? $_GET['pl'] : 0);
+// $pl = mysql_real_escape_string(isset($_GET['pl']) ? $_GET['pl'] : 0);
+$pl = (isset($_GET['pl']) ? $_GET['pl'] : 0);
 
 includeLang('resources');
 includeLang('overview');
@@ -306,7 +307,8 @@ switch ($mode) {
 						planet = '" . $irak['planet_angreifer'] . "' AND
 						planet_type = '1'", 'planets', true);
 
-                    if (mysql_num_rows($planet_start) == 1) {
+                    // if (mysql_num_rows($planet_start) == 1) {
+                    if ($planet_start->rowCount() == 1) {
 						$planet = $planet_start->fetch();
                         // $planet = mysql_fetch_array($planet_start);
                     }
