@@ -34,6 +34,25 @@ class Database
     static $config = NULL;
 }
 
+function pdo_mysql($db,$database,$login,$password) {
+	
+	try{
+		$_O = new PDO(sprintf(
+			"mysql:host=%s;dbname=%s",
+			$db,
+			$database,
+		),$login,$password);
+		
+		$_O->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$_O->setAttribute(PDO::MYSQL_ATTR_INIT_COMMAND, 'SET NAMES utf8mb4');
+
+		return $_O;
+	}
+	catch (PDOException $e) {
+		echo 'Echec de la connexion : ' . $e->getMessage(). PHP_EOL;
+	}
+}
+
 function doquery($query, $table, $fetch = false)
 {
     if (!isset(Database::$config)) {
@@ -42,23 +61,30 @@ function doquery($query, $table, $fetch = false)
 
     if(!isset(Database::$dbHandle))
     {
-        Database::$dbHandle = mysql_connect(
-            $config['global']['database']['options']['hostname'],
-            $config['global']['database']['options']['username'],
-            $config['global']['database']['options']['password'])
-                or trigger_error(mysql_error() . "$query<br />" . PHP_EOL, E_USER_WARNING);
+		//cgange mysql_connect by pdo
 
-        mysql_select_db($config['global']['database']['options']['database'], Database::$dbHandle)
-            or trigger_error(mysql_error()."$query<br />" . PHP_EOL, E_USER_WARNING);
+		
+		Database::$dbHandle = pdo_mysql(
+			$config['global']['database']['options']['hostname'],
+			$config['global']['database']['options']['database'],
+			$config['global']['database']['options']['username'],
+			$config['global']['database']['options']['password']
+		);
+		
     }
     $sql = str_replace("{{table}}", "{$config['global']['database']['table_prefix']}{$table}", $query);
 
-    if (false === ($sqlQuery = mysql_query($sql, Database::$dbHandle))) {
-        trigger_error(mysql_error() . PHP_EOL . "<br /><pre></code>$sql<code></pre><br />" . PHP_EOL, E_USER_WARNING);
-    }
-
+	try{
+		$sqlQuery = Database::$dbHandle->query($sql);
+	}
+	catch (PDOException $e) {
+		echo 'Echec de la requete PDO query : ' . $e->getMessage();
+		exit;
+	}
+	
+	
     if($fetch) {
-        return mysql_fetch_array($sqlQuery);
+        return $sqlQuery->fetch(PDO::FETCH_ASSOC);
     }else{
         return $sqlQuery;
     }
