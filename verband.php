@@ -46,7 +46,8 @@ require_once dirname(__FILE__) .'/common.php';
 		message('Cette flotte n\'existe pas (ou plus)!', 'Erreur');
 	}
 
-	$daten = mysql_fetch_array($query);
+	// $daten = mysql_fetch_array($query);
+	$daten = $query->fetch();
 
 	if ($daten['fleet_start_time'] <= time() || $daten['fleet_end_time'] < time() || $daten['fleet_mess'] == 1) {
 		message('Votre flotte est d�j� sur le chemin du retour!', 'Erreur');
@@ -172,7 +173,8 @@ require_once dirname(__FILE__) .'/common.php';
 	$fq = doquery("SELECT * FROM {{table}} WHERE fleet_owner={$user[id]}", 'fleets');
 
 	$i = 0;
-	while ($f = mysql_fetch_array($fq)) {
+	while ($f = $fq->fetch()) {
+	// while ($f = mysql_fetch_array($fq)) {
 		$i++;
 
 		$page .= "<tr height=20><th>$i</th><th>";

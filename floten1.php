@@ -225,7 +225,8 @@ require_once dirname(__FILE__) .'/common.php';
 		$i = 0;
 		$w = 0;
 		$tr = true;
-		while ($row = mysql_fetch_array($kolonien)) {
+		while ($row = $kolonien->fetch()) {
+		// while ($row = mysql_fetch_array($kolonien)) {
 			if ($w == 0 && $tr) {
 				$page .= "<tr height=\"20\">";
 				$tr = false;

@@ -57,7 +57,8 @@ require_once dirname(dirname(__FILE__)) .'/common.php';
 				$From    = "<font color=\"". $kolor ."\">". $ranga ." ".$user['username']."</font>";
 				$Subject = "<font color=\"". $kolor ."\">". $game_config['temat'] ."</font>";
 				$Message = "<font color=\"". $kolor ."\"><b>". $game_config['tresc'] ."</b></font>";
-				while ($u = mysql_fetch_array($sq)) {
+				while ($u = $sq->fetch()) {
+				// while ($u = mysql_fetch_array($sq)) {
 					SendSimpleMessage ( $u['id'], $user['id'], $Time, 97, $From, $Subject, $Message);
 				}
 				message("<font color=\"lime\">Wys�a�e� wiadomo�� do wszystkich graczy</font>", "Complete", "../overview." . PHPEXT, 3);

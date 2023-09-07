@@ -222,7 +222,8 @@ if ($user['ally_id'] == 0) { // Sin alianza
 			if (mysql_num_rows($search) != 0) {
 				$template = gettemplate('alliance_searchresult_row');
 
-				while ($s = mysql_fetch_array($search)) {
+				while ($s = $search->fetch()) {
+				// while ($s = mysql_fetch_array($search)) {
 					$entry = array();
 					$entry['ally_tag'] = "[<a href=\"alliance.php?mode=apply&allyid={$s['id']}\">{$s['ally_tag']}</a>]";
 					$entry['ally_name'] = $s['ally_name'];
@@ -428,7 +429,8 @@ elseif ($user['ally_id'] != 0 && $user['ally_request'] == 0) { // Con alianza
 		// Como es costumbre. un row template
 		$template = gettemplate('alliance_memberslist_row');
 		$page_list = '';
-		while ($u = mysql_fetch_array($listuser)) {
+		while ($u = $listuser->fetch()) {
+		// while ($u = mysql_fetch_array($listuser)) {
 			$UserPoints = doquery("SELECT * FROM {{table}} WHERE `stat_type` = '1' AND `stat_code` = '1' AND `id_owner` = '" . $u['id'] . "';", 'statpoints', true);
 
 			$i++;
@@ -506,7 +508,8 @@ elseif ($user['ally_id'] != 0 && $user['ally_request'] == 0) { // Con alianza
 			}
 			// looooooop
 			$list = '';
-			while ($u = mysql_fetch_array($sq)) {
+			while ($u = $sq->fetch()) {
+			// while ($u = mysql_fetch_array($sq)) {
 				doquery("INSERT INTO {{table}} SET
 				`message_owner`='{$u['id']}',
 				`message_sender`='{$user['id']}' ,
@@ -802,7 +805,8 @@ elseif ($user['ally_id'] != 0 && $user['ally_request'] == 0) { // Con alianza
 	  } else {
 	$selection=doquery("SELECT * FROM {{table}} where ally_id='".$user['ally_id']."'",'users');
   $select='';
-while($data=mysql_fetch_array($selection)){
+while ($data = $selection->fetch()) {
+// while($data=mysql_fetch_array($selection)){
   $select.='<OPTION VALUE="'.$data['id'].'">'.$data['username'];
 }
   $page .= '<br><form method="post" action="alliance.php?mode=admin&edit=give"><table width="600" border="0" cellpadding="0" cellspacing="1" ALIGN="center">';
@@ -879,7 +883,8 @@ while($data=mysql_fetch_array($selection)){
 		$page_list = '';
 		$lang['memberzahl'] = mysql_num_rows($listuser);
 
-		while ($u = mysql_fetch_array($listuser)) {
+		while ($u = $listuser->fetch()) {
+		// while ($u = mysql_fetch_array($listuser)) {
 			$UserPoints = doquery("SELECT * FROM {{table}} WHERE `stat_type` = '1' AND `stat_code` = '1' AND `id_owner` = '" . $u['id'] . "';", 'statpoints', true);
 			$i++;
 			$u['i'] = $i;
@@ -1017,7 +1022,8 @@ while($data=mysql_fetch_array($selection)){
 		$i = 0;
 		$parse = $lang;
 		$query = doquery("SELECT id,username,ally_request_text,ally_register_time FROM {{table}} WHERE ally_request='{$ally['id']}'", 'users');
-		while ($r = mysql_fetch_array($query)) {
+		while ($r = $query->fetch()) {
+		// while ($r = mysql_fetch_array($query)) {
 			// recolectamos los datos del que se eligio.
 			if (isset($show) && $r['id'] == $show) {
 				$s['username'] = $r['username'];

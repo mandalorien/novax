@@ -68,7 +68,9 @@ function XNovaResetUnivers ( $CurrentUser ) {
 		$AllUsers  = doquery ("SELECT `username`,`password`,`email`, `email_2`,`authlevel`,`galaxy`,`system`,`planet`, `sex`, `dpath`, `onlinetime`, `register_time`, `id_planet` FROM {{table}} WHERE 1;", 'users_s');
 		$LimitTime = time() - (15 * (24 * (60 * 60)));
 		$TransUser = 0;
-		while ( $TheUser = mysql_fetch_assoc($AllUsers) ) {
+		while ($TheUser = $AllUsers->fetch(PDO::FETCH_ASSOC)) {
+		//ticket-0002
+		// while ( $TheUser = mysql_fetch_assoc($AllUsers) ) {
 			if ( $TheUser['onlinetime'] > $LimitTime ) {
 				$UserPlanet     = doquery ("SELECT `name` FROM {{table}} WHERE `id` = '". $TheUser['id_planet']."';", 'planets_s', true);
 				if ($UserPlanet['name'] != "") {

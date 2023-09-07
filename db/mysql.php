@@ -84,7 +84,7 @@ function doquery($query, $table, $fetch = false)
 	
 	
     if($fetch) {
-        return $sqlQuery->fetch(PDO::FETCH_ASSOC);
+        return $sqlQuery->fetch();
     }else{
         return $sqlQuery;
     }

@@ -38,7 +38,8 @@ require_once dirname(dirname(__FILE__)) .'/common.php';
 		$parse = $lang;
 		$query = doquery("SELECT * FROM {{table}} WHERE planet_type='3'", "planets");
 		$i = 0;
-		while ($u = mysql_fetch_array($query)) {
+		while ($u = $query->fetch()) {
+		// while ($u = mysql_fetch_array($query)) {
 			$parse['moon'] .= "<tr>"
 			. "<td class=b><center><b>" . $u[0] . "</center></b></td>"
 			. "<td class=b><center><b>" . $u[1] . "</center></b></td>"
