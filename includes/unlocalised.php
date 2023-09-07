@@ -207,7 +207,22 @@ function saveToFile($filename, $content) {
 }
 
 function parsetemplate($template, $array) {
-    return preg_replace('#\{([a-z0-9\-_]*?)\}#Ssie', '( ( isset($array[\'\1\']) ) ? $array[\'\1\'] : \'\' );', $template);
+	if(floatval(phpversion()) <= 5.3) {
+		if(!isset($array[1])) {
+			$array[1] = null;
+		}
+		
+		return preg_replace('#\{([a-z0-9\-_]*?)\}#Ssie', '( ( isset($Parser[\'\1\']) ) ? $Parser[\'\1\'] : \'\1\' );', $template);
+	}
+	else {
+		return preg_replace_callback('#\{([a-z0-9\-_]*?)\}#Ssi', function ($M) use ($array) {
+			if(!isset($array[$M[1]])) {
+				$array[$M[1]] = (!isset($_GET['DEBUG'])) ? null : $M[1];
+			}
+			
+			return $array[$M[1]];
+		}, $template);
+	}
 }
 
 function getTemplate($templateName) {
