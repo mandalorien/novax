@@ -29,7 +29,7 @@
  */
 
 function ResearchBuildingPage (&$CurrentPlanet, $CurrentUser, $InResearch, $ThePlanet) {
-	       $_GET['tech']=ereg_replace("[^0-9]",'',$_GET['tech']);
+	       $_GET['tech']=preg_replace("[^0-9]",'',$_GET['tech']);
 	global $lang, $resource, $reslist, $dpath, $game_config, $_GET;
 
 
