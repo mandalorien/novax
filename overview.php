@@ -33,11 +33,13 @@ define('INSTALL' , false);
 require_once dirname(__FILE__) .'/common.php';
 
 $lunarow = doquery("SELECT * FROM {{table}} WHERE `id_owner` = '" . $planetrow['id_owner'] . "' AND `galaxy` = '" . $planetrow['galaxy'] . "' AND `system` = '" . $planetrow['system'] . "' AND `lunapos` = '" . $planetrow['planet'] . "';", 'lunas', true);
-
-CheckPlanetUsedFields ($lunarow);
+if($lunarow != false) {
+	CheckPlanetUsedFields($lunarow);
+}
 
 $mode = isset($_GET['mode']) ? $_GET['mode'] : '';
-$_POST['deleteid'] = intval($_POST['deleteid']);
+$deleteid = (isset($_POST['deleteid'])) ? intval($_POST['deleteid']) : 0;
+
 // $pl = mysql_real_escape_string(isset($_GET['pl']) ? $_GET['pl'] : 0);
 $pl = (isset($_GET['pl']) ? $_GET['pl'] : 0);
 
@@ -75,7 +77,7 @@ switch ($mode) {
             $page .= parsetemplate(gettemplate('overview_deleteplanet'), $parse);
             // On affiche la forme pour l'abandon de la colonie
             display($page, $lang['rename_and_abandon_planet']);
-        } elseif ($_POST['kolonieloeschen'] == 1 && $_POST['deleteid'] == $user['current_planet']) {
+        } elseif ($_POST['kolonieloeschen'] == 1 && $deleteid == $user['current_planet']) {
                 // Controle du mot de passe pour abandon de colonie
                 if (md5($_POST['pw']) == $user["password"] && $user['id_planet'] != $user['current_planet']) {
 
