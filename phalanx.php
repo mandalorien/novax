@@ -81,8 +81,10 @@ require_once dirname(__FILE__) .'/common.php';
 
 			$FleetToTarget  = doquery( $QryLookFleets, 'fleets' );
 
-			if (mysql_num_rows($FleetToTarget) <> 0 ) {
-				while ($FleetRow = mysql_fetch_array($FleetToTarget)) {
+			// if (mysql_num_rows($FleetToTarget) <> 0 ) {
+			if ($FleetToTarget->rowCount() <> 0 ) {
+				while ($FleetRow = $FleetToTarget->fetch()) {
+				// while ($FleetRow = mysql_fetch_array($FleetToTarget)) {
 					$Record++;
 
 					// Discrimination de l'heure

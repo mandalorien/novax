@@ -221,11 +221,13 @@ require_once dirname(__FILE__) .'/common.php';
 	$kolonien      = SortUserPlanets ( $user );
 	$currentplanet = doquery("SELECT * FROM {{table}} WHERE id = '" . $user['current_planet'] . "'", 'planets', true);
 
-	if (mysql_num_rows($kolonien) > 1) {
+	// if (mysql_num_rows($kolonien) > 1) {
+	if ($kolonien->rowCount() > 1) {
 		$i = 0;
 		$w = 0;
 		$tr = true;
-		while ($row = mysql_fetch_array($kolonien)) {
+		while ($row = $kolonien->fetch()) {
+		// while ($row = mysql_fetch_array($kolonien)) {
 			if ($w == 0 && $tr) {
 				$page .= "<tr height=\"20\">";
 				$tr = false;

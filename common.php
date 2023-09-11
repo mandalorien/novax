@@ -65,7 +65,9 @@ include(ROOT_PATH . 'includes/db.' . PHPEXT);
 include(ROOT_PATH . 'includes/strings.' . PHPEXT);
 
 $query = doquery('SELECT * FROM {{table}}', 'config');
-while($row = mysql_fetch_assoc($query)) {
+while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+//ticket-0002
+// while($row = mysql_fetch_assoc($query)) {
     $game_config[$row['config_name']] = $row['config_value'];
 }
 
@@ -85,7 +87,8 @@ if (empty($user) && !defined('DISABLE_IDENTITY_CHECK')) {
     exit(0);
 }
 $_fleets = doquery('SELECT * FROM {{table}} WHERE `fleet_start_time` <= UNIX_TIMESTAMP()', 'fleets'); //  OR fleet_end_time <= ".time()
-while ($row = mysql_fetch_array($_fleets)) {
+while ($row = $_fleets->fetch()) {
+// while ($row = mysql_fetch_array($_fleets)) {
     $array                = array();
     $array['galaxy']      = $row['fleet_start_galaxy'];
     $array['system']      = $row['fleet_start_system'];
@@ -96,7 +99,8 @@ while ($row = mysql_fetch_array($_fleets)) {
 }
 
 $_fleets = doquery('SELECT * FROM {{table}} WHERE `fleet_end_time` <= UNIX_TIMESTAMP()', 'fleets'); //  OR fleet_end_time <= ".time()
-while ($row = mysql_fetch_array($_fleets)) {
+while ($row = $_fleets->fetch()) {
+// while ($row = mysql_fetch_array($_fleets)) {
     $array                = array();
     $array['galaxy']      = $row['fleet_end_galaxy'];
     $array['system']      = $row['fleet_end_system'];

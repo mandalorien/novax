@@ -91,17 +91,14 @@ switch ($mode) {
             $prefix = $_POST['prefix'];
             $db     = $_POST['db'];
 
-            $connection = @mysql_connect($host, $user, $pass);
+			
+			$connection = pdo_mysql($host,$db,$user, $pass);
+
             if (!$connection) {
                 header("Location: ?mode=ins&page=1&error=1");
                 exit();
             }
 
-            $dbselect = @mysql_select_db($db);
-            if (!$dbselect) {
-                header("Location: ?mode=ins&page=1&error=1");
-                exit();
-            }
 
             $dz = fopen("../config.php", "w");
             if (!$dz) {
@@ -194,17 +191,12 @@ EOF;
             $db_db     = $config['global']['database']['options']['database'];
             $db_prefix = $config['global']['database']['table_prefix'];
 
-            $connection = @mysql_connect($db_host, $db_user, $db_pass);
-                if (!$connection) {
-                header("Location: ?mode=ins&page=1&error=1");
-                exit();
-                }
+			$connection = pdo_mysql($db_host,$db_db,$db_user, $db_pass);
 
-            $dbselect = @mysql_select_db($db_db);
-                if (!$dbselect) {
+            if (!$connection) {
                 header("Location: ?mode=ins&page=1&error=1");
                 exit();
-                }
+            }
 
             $QryInsertAdm  = "INSERT INTO {{table}} SET ";
             $QryInsertAdm .= "`id`                = '1', ";
@@ -290,12 +282,9 @@ EOF;
             $prefix = $_POST['prefix'];
             $db     = $_POST['db'];
 
-            if (!mysql_connect($host, $user, $pass)) {
-                header("Location: ?mode=goto&page=2&error=1");
-                exit();
-            }
+			$connection = pdo_mysql($host,$db,$user, $pass);
 
-            if (!mysql_select_db($db)) {
+            if (!$connection) {
                 header("Location: ?mode=goto&page=2&error=1");
                 exit();
             }

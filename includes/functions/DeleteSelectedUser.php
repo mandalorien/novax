@@ -44,7 +44,9 @@ function DeleteSelectedUser ( $UserID ) {
 	doquery ( "DELETE FROM {{table}} WHERE `stat_type` = '1' AND `id_owner` = '" . $UserID . "';", 'statpoints' );
 
 	$ThePlanets = doquery ( "SELECT * FROM {{table}} WHERE `id_owner` = '" . $UserID . "';", 'planets' );
-	while ( $OnePlanet = mysql_fetch_assoc ( $ThePlanets ) ) {
+	while ($OnePlanet = $ThePlanets->fetch(PDO::FETCH_ASSOC)) {
+	//ticket-0002
+	// while ( $OnePlanet = mysql_fetch_assoc ( $ThePlanets ) ) {
 		if ( $OnePlanet['planet_type'] == 1 ) {
 			doquery ( "DELETE FROM {{table}} WHERE `galaxy` = '" . $OnePlanet['galaxy'] . "' AND `system` = '" . $OnePlanet['system'] . "' AND `planet` = '" . $OnePlanet['planet'] . "';", 'galaxy' );
 		} elseif ( $OnePlanet['planet_type'] == 3 ) {

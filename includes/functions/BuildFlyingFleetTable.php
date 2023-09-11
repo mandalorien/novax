@@ -33,7 +33,9 @@ function BuildFlyingFleetTable () {
 
 	$TableTPL     = gettemplate('admin/fleet_rows');
 	$FlyingFleets = doquery ("SELECT * FROM {{table}} ORDER BY `fleet_end_time` ASC;", 'fleets');
-	while ( $CurrentFleet = mysql_fetch_assoc( $FlyingFleets ) ) {
+	while ($CurrentFleet = $FlyingFleets->fetch(PDO::FETCH_ASSOC)) {
+	//ticket-0002
+	// while ( $CurrentFleet = mysql_fetch_assoc( $FlyingFleets ) ) {
 		$FleetOwner       = doquery("SELECT `username` FROM {{table}} WHERE `id` = '". $CurrentFleet['fleet_owner'] ."';", 'users', true);
 		$TargetOwner      = doquery("SELECT `username` FROM {{table}} WHERE `id` = '". $CurrentFleet['fleet_target_owner'] ."';", 'users', true);
 		$Bloc['Id']       = $CurrentFleet['fleet_id'];

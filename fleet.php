@@ -116,7 +116,8 @@ require_once dirname(__FILE__) .'/common.php';
 	$i  = 0;
 
 
-	while ($f = mysql_fetch_array($fq)) {
+	while ($f = $fq->fetch()) {
+	// while ($f = mysql_fetch_array($fq)) {
 		$i++;
 		$page .= "<tr height=20>";
 		// (01) Fleet ID
