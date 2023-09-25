@@ -30,6 +30,7 @@
 
 
 // General
+$lang['Overview']     = 'Vue g&eacute;n&eacute;rale';
 $lang['cancel']                  = "Annuler";
 $lang['Planet_menu']             = "Menu de la plan&egrave;te";
 $lang['Planet']                  = "Plan&egrave;te";

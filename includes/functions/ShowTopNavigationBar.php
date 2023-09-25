@@ -31,6 +31,7 @@
 function ShowTopNavigationBar ( $CurrentUser, $CurrentPlanet ) {
 	global $lang, $_GET;
 
+	$mode = isset($_GET['mode']) ? $_GET['mode'] : '';
 	if ($CurrentUser) {
 		if ( !$CurrentPlanet ) {
 			$CurrentPlanet = doquery("SELECT * FROM {{table}} WHERE `id` = '". $CurrentUser['current_planet'] ."';", 'planets', true);
@@ -58,7 +59,7 @@ function ShowTopNavigationBar ( $CurrentUser, $CurrentPlanet ) {
 					$parse['planetlist'] .= "selected=\"selected\" ";
 				}
 				$parse['planetlist'] .= "value=\"?cp=".$CurPlanet['id']."";
-				$parse['planetlist'] .= "&amp;mode=".$_GET['mode'];
+				$parse['planetlist'] .= "&amp;mode=". $mode;
 				$parse['planetlist'] .= "&amp;re=0\">";
 
 				// Nom et coordonnées de la planete

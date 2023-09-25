@@ -122,7 +122,9 @@ if (!defined('IN_ADMIN')) {
 
 SetSelectedPlanet($user);
 
-$planetrow = doquery("SELECT * FROM {{table}} WHERE `id` = '".$user['current_planet']."';", 'planets', true);
-$galaxyrow = doquery("SELECT * FROM {{table}} WHERE `id_planet` = '".$planetrow['id']."';", 'galaxy', true);
+if(count($user) > 0) {
+	$planetrow = doquery("SELECT * FROM {{table}} WHERE `id` = '".$user['current_planet']."';", 'planets', true);
+	$galaxyrow = doquery("SELECT * FROM {{table}} WHERE `id_planet` = '".$planetrow['id']."';", 'galaxy', true);
 
-CheckPlanetUsedFields($planetrow);
+	CheckPlanetUsedFields($planetrow);
+}
