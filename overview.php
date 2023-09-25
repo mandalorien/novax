@@ -123,6 +123,7 @@ switch ($mode) {
         break;
 
     default:
+		$fpage = array();
         if ($user['id'] != '') {
             // --- Gestion des messages ----------------------------------------------------------------------
             $Have_new_message = "";
@@ -346,18 +347,20 @@ switch ($mode) {
                 $parse['bannerframe'] = "<th colspan=\"4\"><img src=\"scripts/createbanner.php?id=".$user['id']."\"><br>".$lang['InfoBanner']."<br><input name=\"bannerlink\" type=\"text\" id=\"bannerlink\" value=\"[img]".$BannerURL."[/img]\" size=\"62\"></th></tr>";
             }
             // --- Gestion de l'affichage d'une lune ---------------------------------------------------------
-            if ($lunarow['id'] <> 0) {
-                if ($planetrow['planet_type'] == 1) {
-                    $lune = doquery ("SELECT * FROM {{table}} WHERE `galaxy` = '" . $planetrow['galaxy'] . "' AND `system` = '" . $planetrow['system'] . "' AND `planet` = '" . $planetrow['planet'] . "' AND `planet_type` = '3'", 'planets', true);
-                    $parse['moon_img'] = "<a href=\"?cp=" . $lune['id'] . "&re=0\" title=\"" . $lune['name'] . "\"><img src=\"" . $dpath . "planeten/" . $lune['image'] . ".jpg\" height=\"50\" width=\"50\"></a>";
-                    $parse['moon'] = $lune['name'];
-                } else {
-                    $parse['moon_img'] = "";
-                    $parse['moon'] = "";
-                }
-            } else {
-                $parse['moon_img'] = "";
-                $parse['moon'] = "";
+            if ($lunarow != false) {
+				if ($lunarow['id'] <> 0) {
+					if ($planetrow['planet_type'] == 1) {
+						$lune = doquery ("SELECT * FROM {{table}} WHERE `galaxy` = '" . $planetrow['galaxy'] . "' AND `system` = '" . $planetrow['system'] . "' AND `planet` = '" . $planetrow['planet'] . "' AND `planet_type` = '3'", 'planets', true);
+						$parse['moon_img'] = "<a href=\"?cp=" . $lune['id'] . "&re=0\" title=\"" . $lune['name'] . "\"><img src=\"" . $dpath . "planeten/" . $lune['image'] . ".jpg\" height=\"50\" width=\"50\"></a>";
+						$parse['moon'] = $lune['name'];
+					} else {
+						$parse['moon_img'] = "";
+						$parse['moon'] = "";
+					}
+				} else {
+					$parse['moon_img'] = "";
+					$parse['moon'] = "";
+				}
             }
             // Moon END
             $parse['planet_name'] = $planetrow['name'];
@@ -371,13 +374,23 @@ switch ($mode) {
             $parse['galaxy_system'] = $planetrow['system'];
             $StatRecord = doquery("SELECT * FROM {{table}} WHERE `stat_type` = '1' AND `stat_code` = '1' AND `id_owner` = '" . $user['id'] . "';", 'statpoints', true);
 
-            $parse['user_points'] = pretty_number($StatRecord['build_points']);
-            $parse['user_fleet'] = pretty_number($StatRecord['fleet_points']);
-            $parse['player_points_tech'] = pretty_number($StatRecord['tech_points']);
-            $parse['total_points'] = pretty_number($StatRecord['total_points']);;
+			if($StatRecord != false) {
+				$parse['user_points'] = pretty_number($StatRecord['build_points']);
+				$parse['user_fleet'] = pretty_number($StatRecord['fleet_points']);
+				$parse['player_points_tech'] = pretty_number($StatRecord['tech_points']);
+				$parse['total_points'] = pretty_number($StatRecord['total_points']);
+				$parse['user_rank'] = $StatRecord['total_rank'];
+				$ile = $StatRecord['total_old_rank'] - $StatRecord['total_rank'];
+			}else{
+				// WARNING : STAT In statpoints is not isset problem
+				$parse['user_points'] = 0;
+				$parse['user_fleet'] = 0;
+				$parse['player_points_tech'] = 0;
+				$parse['total_points'] = 0;
+				$parse['user_rank'] = -1;
+				$ile = -1;
+			}
 
-            $parse['user_rank'] = $StatRecord['total_rank'];
-            $ile = $StatRecord['total_old_rank'] - $StatRecord['total_rank'];
             if ($ile >= 1) {
                 $parse['ile'] = "<font color=lime>+" . $ile . "</font>";
             } elseif ($ile < 0) {
@@ -385,9 +398,18 @@ switch ($mode) {
             } elseif ($ile == 0) {
                 $parse['ile'] = "<font color=lightblue>" . $ile . "</font>";
             }
-            $parse['u_user_rank'] = $StatRecord['total_rank'];
+			
+			if($StatRecord != false) {
+				$parse['u_user_rank'] = $StatRecord['total_rank'];
+			}
+			else{
+				$parse['u_user_rank'] = 0;
+			}
             $parse['user_username'] = $user['username'];
 
+			$flotten = '';
+			$HaveNewLevelMineur = '';
+			$HaveNewLevelRaid = '';
             if (count($fpage) > 0) {
                 ksort($fpage);
                 foreach ($fpage as $time => $content) {
