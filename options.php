@@ -37,7 +37,7 @@ require_once dirname(__FILE__) .'/common.php';
     $lang['PHP_SELF'] = 'options.' . PHPEXT;
 
     $dpath = (!$user["dpath"]) ? DEFAULT_SKINPATH : $user["dpath"];
-    $mode = $_GET['mode'];
+    $mode = isset($_GET['mode']) ? $_GET['mode'] : '';
 
     if ($_POST && $mode == "exit") { // Array ( [db_character]
        if (isset($_POST["exit_modus"]) && $_POST["exit_modus"] == 'on' and $user['urlaubs_until'] <= time()){

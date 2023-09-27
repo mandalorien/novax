@@ -37,11 +37,14 @@ includeLang('banned');
 
 $parse = $lang;
 $parse['dpath'] = $dpath;
-$parse['mf'] = $mf;
+if(isset($mf)) {
+	$parse['mf'] = $mf;
+}
 
 
 $query = doquery("SELECT * FROM {{table}} ORDER BY `id`;",'banned');
 $i=0;
+$parse['banned'] = '';
 while ($u = $query->fetch()) {
 // while($u = mysql_fetch_array($query)){
 	$parse['banned'] .=
@@ -53,7 +56,7 @@ while ($u = $query->fetch()) {
 	$i++;
 }
 
-if ($i=="0")
+if ($i == 0)
  $parse['banned'] .= "<tr><th class=b colspan=6>Il n'y a pas de joueurs bannis</th></tr>";
 else
   $parse['banned'] .= "<tr><th class=b colspan=6>Il y a {$i} joueurs bannis</th></tr>";

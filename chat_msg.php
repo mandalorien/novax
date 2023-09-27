@@ -38,7 +38,7 @@ $time_1h=$timemoment - 3600;
 
 // On selectionne les messages présents dans la base de donnée
 $query = doquery("SELECT * FROM {{table}} ORDER BY messageid ASC", "chat");
-while($v=mysql_fetch_object($query)){
+while ($v = $query->fetch(PDO::FETCH_OBJ)) {
 	$nick=htmlentities($v->user);
 	$msg=htmlentities($v->message);
 

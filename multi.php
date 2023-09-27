@@ -36,7 +36,7 @@ includeLang('messages');
 includeLang('system');
 
 
-$Mode = $_GET['mode'];
+$Mode = isset($_GET['mode']) ? $_GET['mode'] : '';
 
 
 if ($Mode != 'add') {
@@ -48,6 +48,8 @@ if ($Mode != 'add') {
     display($page, $lang['messages']);
 
 }
+
+/* TODO : new ticket
 if ($mode == 'add') {
     $Texte = $_POST['texte'];
     $Joueur = $user['username'];
@@ -59,8 +61,8 @@ if ($mode == 'add') {
 
 
     message($lang['sys_request_ok'],$lang['sys_ok']);
-
 }
+*/
 // D�claration des multi compte
 // Par Tom pour XNova
 ?>

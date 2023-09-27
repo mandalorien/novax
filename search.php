@@ -32,7 +32,7 @@ define('INSIDE' , true);
 define('INSTALL' , false);
 require_once dirname(__FILE__) .'/common.php';
 
-$searchtext = mysql_escape_string($_POST['searchtext']);
+$searchtext = ($_POST['searchtext']);
 $type = $_POST['type'];
 
 $dpath = (!$user["dpath"]) ? DEFAULT_SKINPATH : $user["dpath"];
@@ -40,7 +40,7 @@ $dpath = (!$user["dpath"]) ? DEFAULT_SKINPATH : $user["dpath"];
 includeLang('search');
 $i = 0;
 //creamos la query
-$searchtext = mysql_escape_string($_POST["searchtext"]);
+$searchtext = ($_POST["searchtext"]);
 switch($type){
 	case "playername":
 		$table = gettemplate('search_user_table');

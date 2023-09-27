@@ -44,6 +44,7 @@ require_once dirname(__FILE__) .'/common.php';
 	$QrySelectUser .= "WHERE `authlevel` != '0' ORDER BY `authlevel` DESC;";
 	$GameOps = doquery ( $QrySelectUser, 'users');
 
+	$parse['ctc_admin_list'] = '';
 	while ($Ops = $GameOps->fetch(PDO::FETCH_ASSOC)) {
 	//ticket-0002
 	// while( $Ops = mysql_fetch_assoc($GameOps) ) {

@@ -34,10 +34,10 @@ require_once dirname(__FILE__) .'/common.php';
 
 	includeLang('buddy');
 
-$a = $_GET['a'];
-$e = $_GET['e'];
-$s = $_GET['s'];
-$u = intval( $_GET['u'] );
+$a = isset($_GET['a']) ? $_GET['a'] : 0;
+$e = isset($_GET['e']) ? $_GET['e'] : 0;
+$s = isset($_GET['s']) ? $_GET['s'] : 0;
+$u = isset($_GET['u']) ? (int)$_GET['u'] : 0;
 
 if ( $s == 1 && isset( $_GET['bid'] ) ) {
 	// Effacer une entree de la liste d'amis

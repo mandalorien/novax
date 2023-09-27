@@ -35,7 +35,7 @@ includeLang('changelog');
 
 $template = gettemplate('changelog_table');
 
-
+$body = '';
 foreach($lang['changelog'] as $a => $b)
 {
 
@@ -49,7 +49,7 @@ foreach($lang['changelog'] as $a => $b)
 $parse = $lang;
 $parse['body'] = $body;
 
-$page .= parsetemplate(gettemplate('changelog_body'), $parse);
+$page = parsetemplate(gettemplate('changelog_body'), $parse);
 
 display($page,"Change Log");
 

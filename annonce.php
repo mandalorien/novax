@@ -33,7 +33,7 @@ define('INSTALL' , false);
 require_once dirname(__FILE__) .'/common.php';
 $users   = doquery("SELECT * FROM {{table}} WHERE id='".$user['id']."';", 'users');
 $annonce = doquery("SELECT * FROM {{table}} ", 'annonce');
-$action  = $_GET['action'];
+$action  = isset($_GET['action']) ? $_GET['action'] : '';
 
 if ($action == 5) {
 	$metalvendre = $_POST['metalvendre'];
