@@ -1,1 +1,10 @@
+#Step 1
+#add filename to .gitignore file
+#Step 2
+#[remove filename (file path) from git cache
+#git rm --cached filename
+#Step 3
+#commit changes git add filename
+#git commit -m "add filename to .gitignore"
+
 config.php
