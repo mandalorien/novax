@@ -1,1 +1,14 @@
 SetEnv DEBUG On
+#permet de ne pas voir la liste des fichiers etc
+Options -Indexes
+Options +FollowSymlinks
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /
+	#si il y a filtrage IP
+	#RewriteCond %{REMOTE_ADDR} !255.255.000.000
+	#RewriteRule ^ - [F,L]
+	
+	#regles du framework !
+</IfModule>
