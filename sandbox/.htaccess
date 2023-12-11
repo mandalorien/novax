@@ -1,0 +1,28 @@
+SetEnv DEBUG On
+#permet de ne pas voir la liste des fichiers etc
+Options -Indexes
+Options +FollowSymlinks
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteBase /sandbox/
+	#si il y a filtrage IP
+	#RewriteCond %{REMOTE_ADDR} !255.255.000.000
+	#RewriteRule ^ - [F,L]
+	
+	#regles du framework !
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	
+	# Page :
+	# module : front,back,api,websocket
+	# controller : file 
+	# method : (public) not private or protected 
+	# parameters : other parameters
+	RewriteRule ^(front|back|api|websocket)/([a-zA-Z]+)/([a-zA-Z]+)/?(.*)$ index.php?module=$1&controller=$2&method=$3&parameters=$4 [QSA,NC,L]
+	RewriteRule ^(front|back|api|websocket)/([a-zA-Z]+)/([a-zA-Z]+)/$ index.php?module=$1&controller=$2&method=$3 [QSA,NC,L]
+	RewriteRule ^(front|back|api|websocket)/([a-zA-Z]+)/([a-zA-Z]+)$ index.php?module=$1&controller=$2&method=$3 [QSA,NC,L]
+	RewriteRule ^(front|back|api|websocket)/([a-zA-Z]+)/$ index.php?module=$1&controller=$2 [QSA,NC,L]
+	RewriteRule ^(front|back|api|websocket)/([a-zA-Z]+)$ index.php?module=$1&controller=$2 [QSA,NC,L]
+	RewriteRule ^(front|back|api|websocket)$ index.php?module=$1 [QSA,NC,L]
+</IfModule>
